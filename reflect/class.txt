@@ -1,0 +1,2 @@
+classname=reflect.Person
+methodname=staticMethod
