@@ -35,14 +35,16 @@ public class TestApplication {
     @Test
     public void fileTest() {
         Date date = new Date();
-        File file = new File("C:\\");
+        File file = new File("D:\\");
         FileRunnable test = new FileRunnable(file);
         test.File();
-        System.out.println("contenList = " + test.getContenList());
-        System.out.println("test = " + test.getContenList().size());
-
+        List<String> list = test.getContenList();
         Date date1 = new Date();
-        System.out.println("date1 = " + (date1.getTime() - date.getTime()));
+        System.out.println("list = " + list);
+        System.out.println("------------------------------");
+        System.out.println("size = " + list.size());
+        System.out.println("------------------------------");
+        System.out.println("date = " + (date1.getTime() - date.getTime()));
     }
 
     @Autowired
@@ -62,16 +64,17 @@ public class TestApplication {
 
     @Test
     public void test3(){
-        String path = "E:\\";
+        String path = "D:\\";
         File file = new File(path);
 
         FileIteration fileIteration = new FileIteration();
         fileIteration.getFileName(file);
         List<String> list = fileIteration.getList();
         System.out.println("list = " + list.toString());
+        System.out.println();
+        System.out.println("size = " + list.size());
 
     }
-
 
     @Test
     public void test4() throws IOException {

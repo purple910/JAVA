@@ -22,13 +22,14 @@ public class FileRunnable {
     // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
     private final static int THREAD_COUNT = 12;
     // 保存文件附加信息
-    private ArrayList<String> contenList = new ArrayList<String>();
+    private ArrayList<String> contenList = new ArrayList<>();
     // 当前文件或者目录
     private File file;
 
     public FileRunnable(File file) {
         this.file = file;
     }
+
     public FileRunnable(String path) {
         this.file = new File(path);
     }
@@ -76,7 +77,7 @@ public class FileRunnable {
         // 非递归深度遍历算法
         void quickFind() throws IOException {
             // 使用栈，进行深度遍历
-            Stack<File> stk = new Stack<File>();
+            Stack<File> stk = new Stack<>();
             stk.push(this.file);
             File f;
             while (!stk.empty()) {
@@ -87,12 +88,15 @@ public class FileRunnable {
                         for (int i = 0; i < fs.length; i++) {
                             stk.push(fs[i]);
                         }
-                    }else {
+                    } else {
+                        synchronized (this) {
+                            contenList.add(f.getPath());
+                        }
+                    }
+                } else if (f.isFile()) {
+                    synchronized (this) {
                         contenList.add(f.getPath());
                     }
-                }
-                else {
-                    contenList.add(f.getPath());
                 }
             }
         }
@@ -101,13 +105,13 @@ public class FileRunnable {
     // 深度遍历算法加调用线程池
     public void File() {
         File fl = this.file;
-        ArrayList<File> flist = new ArrayList<File>();
-        ArrayList<File> flist2 = new ArrayList<File>();
+        ArrayList<File> flist = new ArrayList<>();
+        ArrayList<File> flist2 = new ArrayList<>();
         ArrayList<File> tmp = null, next = null;
         flist.add(fl);
         // 广度遍历层数控制
         int loop = 0;
-        while (loop++ < 3) {// 最优循环层数是3层，多次实验得出
+        while (loop++ < 2) {// 最优循环层数是3层，多次实验得出
             tmp = tmp == flist ? flist2 : flist;
             next = next == flist2 ? flist : flist2;
             for (int i = 0; i < tmp.size(); i++) {
@@ -117,10 +121,11 @@ public class FileRunnable {
                         File[] fls = fl.listFiles();
                         if (fls != null) {
                             next.addAll(Arrays.asList(fls));
-                        }
-                        else {
+                        } else {
                             contenList.add(fl.getPath());
                         }
+                    } else if (fl.isFile()) {
+                        contenList.add(fl.getPath());
                     }
                 }
             }
