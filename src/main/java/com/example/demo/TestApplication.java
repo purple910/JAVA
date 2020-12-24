@@ -14,6 +14,7 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -69,6 +70,16 @@ public class TestApplication {
         List<String> list = fileIteration.getList();
         System.out.println("list = " + list.toString());
 
+    }
+
+
+    @Test
+    public void test4() throws IOException {
+        String path = "E:\\admin\\Music";
+        File file = new File(path);
+        FileIteration fileIteration = new FileIteration();
+//        fileIteration.removeSameFile(file);
+        fileIteration.changeNameBySameFile(file);
     }
 
 }
