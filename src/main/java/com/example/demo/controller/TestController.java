@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.utils.FileTest;
+import com.example.demo.utils.FileRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MutablePropertySources;
@@ -59,7 +59,7 @@ public class TestController {
     @GetMapping("/file")
     public String file1(@RequestParam("path") String path){
         File file = new File(path);
-        FileTest test = new FileTest(file);
+        FileRunnable test = new FileRunnable(file);
         test.File();
         List<String> list = test.getContenList();
         return list.toString();

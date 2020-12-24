@@ -1,6 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.utils.FileTest;
+import com.example.demo.utils.FileIteration;
+import com.example.demo.utils.FileRunnable;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +14,10 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @ClassName Test
@@ -32,7 +35,7 @@ public class TestApplication {
     public void fileTest() {
         Date date = new Date();
         File file = new File("C:\\");
-        FileTest test = new FileTest(file);
+        FileRunnable test = new FileRunnable(file);
         test.File();
         System.out.println("contenList = " + test.getContenList());
         System.out.println("test = " + test.getContenList().size());
@@ -55,4 +58,17 @@ public class TestApplication {
         });
         System.out.println("environment = " + environment.toString());
     }
+
+    @Test
+    public void test3(){
+        String path = "E:\\";
+        File file = new File(path);
+
+        FileIteration fileIteration = new FileIteration();
+        fileIteration.getFileName(file);
+        List<String> list = fileIteration.getList();
+        System.out.println("list = " + list.toString());
+
+    }
+
 }

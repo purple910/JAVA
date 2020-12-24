@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
  * @Author 杨登柳
  * @Date 2020/12/23    15:58
  **/
-public class FileTest {
+public class FileRunnable {
 
 
     // 控制线程数，最优选择是处理器线程数*3，本机处理器是4线程
@@ -26,10 +26,10 @@ public class FileTest {
     // 当前文件或者目录
     private File file;
 
-    public FileTest(File file) {
+    public FileRunnable(File file) {
         this.file = file;
     }
-    public FileTest(String path) {
+    public FileRunnable(String path) {
         this.file = new File(path);
     }
 
