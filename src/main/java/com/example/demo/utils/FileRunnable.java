@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @ClassName FileTest
@@ -133,10 +132,21 @@ public class FileRunnable {
         }
 
         // 创建线程池，一共THREAD_COUNT个线程可以使用
-        ExecutorService pool = Executors.newFixedThreadPool(THREAD_COUNT);
+//        ExecutorService pool = Executors.newFixedThreadPool(THREAD_COUNT);
+//        ExecutorService  pool = new ThreadPoolExecutor(4, 12, 0L,
+//                TimeUnit.MILLISECONDS,
+//                new LinkedBlockingQueue<>(10),
+//                Executors.defaultThreadFactory(),
+//                new ThreadPoolExecutor.AbortPolicy());
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 2, 0L,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(next.size()),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.AbortPolicy());
 
         for (File file : next) {
             pool.submit(new FileThread(file));
+//            pool.execute(new FileThread(file));
         }
         pool.shutdown();
         // 必须等到所有线程结束才可以让主线程退出，不然就一直阻塞
