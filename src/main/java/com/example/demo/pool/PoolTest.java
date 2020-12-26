@@ -1,9 +1,5 @@
 package com.example.demo.pool;
 
-import com.example.demo.utils.FileRunnable;
-import org.omg.PortableInterceptor.INACTIVE;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,7 +13,7 @@ import java.util.concurrent.Executors;
  * @Author 杨登柳
  * @Date 2020/12/24  17:19
  **/
-public class Test {
+public class PoolTest {
 
     public static void main(String[] args) {
 
@@ -27,7 +23,7 @@ public class Test {
             list.add(random.nextInt(9000) + 1000);
         }
 
-        Test test = new Test();
+        PoolTest test = new PoolTest();
         test.Calculation(list);
         long sum = test.getSum();
         System.out.println("sum = " + sum);

@@ -30,7 +30,7 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
-public class TestApplication {
+public class ApplicationTest {
 
     @Test
     public void fileTest() {
