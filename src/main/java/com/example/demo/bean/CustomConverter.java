@@ -21,7 +21,7 @@ public class CustomConverter<S, T> {
      *
      * @param c
      */
-    public CustomConverter(Class<T> c) {
+    private CustomConverter(Class<T> c) {
         try {
             this.t = c.newInstance();
         } catch (Exception e) {
@@ -49,6 +49,9 @@ public class CustomConverter<S, T> {
      * @param target 目标对象
      */
     public void convert(S source, T target) {
+        if (source == null){
+            return;
+        }
         BeanCopier copier = BeanCopier.create(source.getClass(), target.getClass(), false);
         copier.copy(source, target, null);
     }
@@ -64,6 +67,9 @@ public class CustomConverter<S, T> {
      * @return 目标对象
      */
     public T convertByInherit(S source) {
+        if (source == null) {
+            return null;
+        }
         convert(source, (T) this);
         return (T) this;
     }
@@ -82,6 +88,9 @@ public class CustomConverter<S, T> {
      * @return 目标对象
      */
     public T convert(S source) {
+        if (source == null) {
+            return null;
+        }
         convert(source, t);
         return t;
     }

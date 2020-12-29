@@ -97,12 +97,12 @@ public class ApplicationTest {
 
         // extends CustomConverter<User, UserDTO>
         // 1.
-//        UserDTO dto = new UserDTO();
-//        dto.convert(user, dto);
+        UserDTO dto = new UserDTO();
+        dto.convert(user, dto);
         // 2.
 //        UserDTO dto = new UserDTO().convertByInherit(user);
         // 3.
-        UserDTO dto = new CustomConverter<User, UserDTO>(UserDTO.class).convert(user);
+//        UserDTO dto = new CustomConverter<User, UserDTO>(UserDTO.class).convert(user);
 
         // 1.
 //        UserDTO dto = new UserDTO();
