@@ -10,6 +10,13 @@ import org.apache.rocketmq.common.message.MessageExt;
 
 import java.util.List;
 
+/**
+ * @ClassName Consumer
+ * @Description
+ * @PackageName org.example.rocketmq.demo.Consumer
+ * @Author fate
+ * @Date 2020/12/30  15:57
+ **/
 public class Consumer {
  
     /**

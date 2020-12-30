@@ -1,13 +1,5 @@
 package org.example.rocketmq;
 
-/**
- * @ClassName produce
- * @Description
- * @PackageName org.example.rocketmq.produce
- * @Author 杨登柳
- * @Date 2020/12/8    11:03
- **/
-
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -19,8 +11,12 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 import java.util.UUID;
 
 /**
- * Created by xy on 2018/11/16.
- */
+ * @ClassName produce
+ * @Description
+ * @PackageName org.example.rocketmq.produce
+ * @Author fate
+ * @Date 2020/12/8    11:03
+ **/
 public class SyncProducer {
     private static DefaultMQProducer producer = null;
 

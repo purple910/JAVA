@@ -11,8 +11,12 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by xy on 2018/11/16.
- */
+ * @ClassName ConsumerTest
+ * @Description
+ * @PackageName org.example.rocketmq.ConsumerTest
+ * @Author fate
+ * @Date 2020/12/30  15:56
+ **/
 public class ConsumerTest {
     public static void main(String[] args) {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("con_qch_test");
