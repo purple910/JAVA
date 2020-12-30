@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.bean.CustomConverter;
 import com.example.demo.bean.UserDTO;
 import com.example.demo.bean.User;
+import com.example.demo.bean.UserInputDTO;
 import com.example.demo.utils.FileIteration;
 import com.example.demo.utils.FileRunnable;
 import lombok.extern.slf4j.Slf4j;
@@ -97,15 +98,15 @@ public class ApplicationTest {
 
         // extends CustomConverter<User, UserDTO>
         // 1.
-        UserDTO dto = new UserDTO();
-        dto.convert(user, dto);
+//        UserDTO dto = new UserDTO();
+//        dto.convert(user, dto);
         // 2.
-//        UserDTO dto = new UserDTO().convertByInherit(user);
+//        UserDTO dto = new UserDTO().convertByOutput(user);
         // 3.
 //        UserDTO dto = new CustomConverter<User, UserDTO>(UserDTO.class).convert(user);
 
         // 1.
-//        UserDTO dto = new UserDTO();
+        UserDTO dto = new UserDTO();
 //        new CustomConverter<User,UserDTO>().convert(user,dto);
         // 3.
 //        UserDTO dto = new CustomConverter<User, UserDTO>(UserDTO.class).convert(user);
@@ -120,14 +121,18 @@ public class ApplicationTest {
     @Test
     public void test6() {
 
-        UserDTO dto = new UserDTO();
+        UserInputDTO dto = new UserInputDTO();
         dto.setAge(18);
         dto.setId(2);
         dto.setName("root");
         dto.setPassword("11111");
-        User user = new User();
+//        User user = new User();
 //        dto.convertToDo(dto, user);
 
+        // input
+        User user = dto.convertOut(User.class);
+        // output
+//        User user = dto.convertByInput(dto);
         System.out.println("user = " + user);
         System.out.println("dto = " + dto);
     }

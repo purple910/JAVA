@@ -49,7 +49,7 @@ public class CustomConverter<S, T> {
      * @param target 目标对象
      */
     public void convert(S source, T target) {
-        if (source == null){
+        if (source == null) {
             return;
         }
         BeanCopier copier = BeanCopier.create(source.getClass(), target.getClass(), false);
@@ -58,15 +58,16 @@ public class CustomConverter<S, T> {
 
     /**
      * 传入资源对象,返回目标对象
+     * <p>属性值传进来 (outputDTO)</p>
      * <p>必须继承</p>
      * <p>
-     * UserDTO dto = new UserDTO().convertByInherit(user);
+     * UserDTO dto = new UserDTO().convertIn(user);
      * </p>
      *
      * @param source 资源对象
      * @return 目标对象
      */
-    public T convertByInherit(S source) {
+    public T convertIn(S source) {
         if (source == null) {
             return null;
         }
@@ -74,6 +75,27 @@ public class CustomConverter<S, T> {
         return (T) this;
     }
 
+    /**
+     * 传入资源对象,返回目标对象
+     * <p>属性值传出去 (inputDTO)</p>
+     * <p>必须继承</p>
+     * <p>
+     * User user = dto.convertOut(User.class);
+     * </p>
+     *
+     * @param target 目标对象类
+     * @return 目标对象
+     */
+    public T convertOut(Class<T> target) {
+        try {
+            T instance = target.getDeclaredConstructor().newInstance();
+            convert((S) this, instance);
+            return instance;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * 传入资源对象,返回目标对象
@@ -89,6 +111,9 @@ public class CustomConverter<S, T> {
      */
     public T convert(S source) {
         if (source == null) {
+            return null;
+        }
+        if (t == null) {
             return null;
         }
         convert(source, t);
