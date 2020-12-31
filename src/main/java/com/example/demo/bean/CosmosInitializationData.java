@@ -3,6 +3,7 @@ package com.example.demo.bean;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ import java.util.Random;
 public class CosmosInitializationData {
 
     public static void main(String[] args) throws IllegalAccessException {
-        CosmosY cosmosY = getCosmosY();
+//        CosmosY cosmosY = getCosmosY();
 
         // 使用org.apache.commons.beanutils.BeanUtils.copyProperties  (source != target)
 //        CosmosN cosmosN = new CosmosN();
@@ -39,9 +40,9 @@ public class CosmosInitializationData {
 //        copier.copy(cosmosY, cosmosN, null);
 
         // 使用org.springframework.cglib.beans.BeanCopier (source != target)
-        CosmosN cosmosN = new CosmosN();
-        org.springframework.cglib.beans.BeanCopier copier = org.springframework.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
-        copier.copy(cosmosY, cosmosN, null);
+//        CosmosN cosmosN = new CosmosN();
+//        org.springframework.cglib.beans.BeanCopier copier = org.springframework.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
+//        copier.copy(cosmosY, cosmosN, null);
 
         // 使用mirror Mirror.setValue (source <= target)
 //        CosmosN cosmosN = new CosmosN();
@@ -69,11 +70,110 @@ public class CosmosInitializationData {
 //        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
 //            e.printStackTrace();
 //        }
+        List<CosmosY> cosmosies = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            CosmosY cosmosY = getCosmosY();
+            cosmosies.add(cosmosY);
+        }
+
+        List<CosmosN> list = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            CosmosN cosmosN = new CosmosN();
+            list.add(cosmosN);
+        }
+        List<CosmosN> list1 = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            CosmosN cosmosN = new CosmosN();
+            list1.add(cosmosN);
+        }
+        List<CosmosN> list2 = new ArrayList<>();
+        for (int i = 0; i < 1000000; i++) {
+            CosmosN cosmosN = new CosmosN();
+            list2.add(cosmosN);
+        }
+
+        Date date1 = new Date();
+        for (int i = 0; i < 1000000; i++) {
+            net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
+            copier.copy(cosmosies.get(i), list.get(i), null);
+        }
+//        list.forEach(item -> {
+//            net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
+//            copier.copy(cosmosY, item, null);
+//        });
+        Date date2 = new Date();
+        System.out.println("date2.getTime()-date1.getTime() = " + (date2.getTime() - date1.getTime()));
+
+        Date date3 = new Date();
+//        list1.forEach(item -> {
+        for (int i = 0; i < 1000000; i++) {
+            cosmosies.get(i).setFiled1(list1.get(i).getFiled1());
+            cosmosies.get(i).setFiled2(list1.get(i).getFiled2());
+            cosmosies.get(i).setFiled3(list1.get(i).getFiled3());
+            cosmosies.get(i).setFiled4(list1.get(i).getFiled4());
+            cosmosies.get(i).setFiled5(list1.get(i).getFiled5());
+            cosmosies.get(i).setFiled6(list1.get(i).getFiled6());
+            cosmosies.get(i).setFiled7(list1.get(i).getFiled7());
+            cosmosies.get(i).setFiled8(list1.get(i).getFiled8());
+            cosmosies.get(i).setFiled9(list1.get(i).getFiled9());
+            cosmosies.get(i).setFiled10(list1.get(i).getFiled10());
+            cosmosies.get(i).setFiled11(list1.get(i).getFiled11());
+            cosmosies.get(i).setFiled12(list1.get(i).getFiled12());
+            cosmosies.get(i).setFiled13(list1.get(i).getFiled13());
+            cosmosies.get(i).setFiled14(list1.get(i).getFiled14());
+            cosmosies.get(i).setFiled15(list1.get(i).getFiled15());
+            cosmosies.get(i).setFiled16(list1.get(i).getFiled16());
+            cosmosies.get(i).setFiled17(list1.get(i).getFiled17());
+            cosmosies.get(i).setFiled18(list1.get(i).getFiled18());
+            cosmosies.get(i).setFiled19(list1.get(i).getFiled19());
+            cosmosies.get(i).setFiled20(list1.get(i).getFiled20());
+            cosmosies.get(i).setFiled21(list1.get(i).getFiled21());
+            cosmosies.get(i).setFiled22(list1.get(i).getFiled22());
+            cosmosies.get(i).setFiled23(list1.get(i).getFiled23());
+            cosmosies.get(i).setFiled24(list1.get(i).getFiled24());
+            cosmosies.get(i).setFiled25(list1.get(i).getFiled25());
+            cosmosies.get(i).setFiled26(list1.get(i).getFiled26());
+            cosmosies.get(i).setFiled27(list1.get(i).getFiled27());
+            cosmosies.get(i).setFiled28(list1.get(i).getFiled28());
+            cosmosies.get(i).setFiled29(list1.get(i).getFiled29());
+            cosmosies.get(i).setFiled30(list1.get(i).getFiled30());
+            cosmosies.get(i).setFiled31(list1.get(i).getFiled31());
+            cosmosies.get(i).setFiled32(list1.get(i).getFiled32());
+            cosmosies.get(i).setFiled33(list1.get(i).getFiled33());
+            cosmosies.get(i).setFiled34(list1.get(i).getFiled34());
+            cosmosies.get(i).setFiled35(list1.get(i).getFiled35());
+            cosmosies.get(i).setFiled36(list1.get(i).getFiled36());
+            cosmosies.get(i).setFiled37(list1.get(i).getFiled37());
+            cosmosies.get(i).setFiled38(list1.get(i).getFiled38());
+            cosmosies.get(i).setFiled39(list1.get(i).getFiled39());
+            cosmosies.get(i).setFiled40(list1.get(i).getFiled40());
+            cosmosies.get(i).setFiled41(list1.get(i).getFiled41());
+            cosmosies.get(i).setFiled42(list1.get(i).getFiled42());
+            cosmosies.get(i).setFiled43(list1.get(i).getFiled43());
+            cosmosies.get(i).setFiled44(list1.get(i).getFiled44());
+            cosmosies.get(i).setFiled45(list1.get(i).getFiled45());
+            cosmosies.get(i).setFiled46(list1.get(i).getFiled46());
+            cosmosies.get(i).setFiled47(list1.get(i).getFiled47());
+            cosmosies.get(i).setFiled48(list1.get(i).getFiled48());
+            cosmosies.get(i).setFiled49(list1.get(i).getFiled49());
+            cosmosies.get(i).setFiled50(list1.get(i).getFiled50());
+//        });
+        }
+        Date date4 = new Date();
+        System.out.println("(date4.getTime() - date3.getTime()) = "+(date4.getTime()-date3.getTime()));
 
 
-        System.out.println("cosmosN = " + cosmosN);
-        System.out.println("cosmosY = " + cosmosY);
-    }
+        Date date5 = new Date();
+        for (int i = 0; i < 1000000; i++) {
+             org.springframework.beans.BeanUtils.copyProperties(cosmosies.get(i), list2.get(i));
+        }
+        Date date6 = new Date();
+        System.out.println("(date6.getTime() - date5.getTime()) = "+(date6.getTime()-date5.getTime()));
+
+
+//        System.out.println("cosmosN = " + cosmosN);
+//        System.out.println("cosmosY = " + cosmosY);
+}
 
 
     private static CosmosY getCosmosY() {
