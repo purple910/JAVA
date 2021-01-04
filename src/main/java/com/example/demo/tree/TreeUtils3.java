@@ -37,7 +37,9 @@ public class TreeUtils3 {
             } else {
                 // 子类
                 // 父类为空时，先将当前值缓存，等待父父类被初始化
+                // 若key对应的value为空，会将第二个参数的返回值存入并返回
                 childs.computeIfAbsent(unit.getFdwbm(), k -> new ArrayList<>());
+                // 获取父编码的集合,把当前对象添加进去
                 childs.get(unit.getFdwbm()).add(listOutputDTO);
             }
         }

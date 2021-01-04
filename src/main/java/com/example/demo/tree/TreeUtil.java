@@ -106,4 +106,34 @@ public class TreeUtil {
 
     }
 
+
+    private <T extends TreeNode> List<T> treeUnit(List<T> list) {
+        // 便于快速查找
+        Map<Integer, List<T>> childs = new HashMap<>();
+        List<T> outputDTOList = new ArrayList<>();
+        for (T unit : list) {
+            List<T> child;
+
+            // 创建子节点
+            if ((child = childs.get(unit.id)) == null) {
+                child = new ArrayList<>();
+                // 便于快速查找
+                childs.put(unit.id, child);
+            }
+            unit.children.add((TreeNode) child);
+
+            // 父类
+            if (unit.parentId == 0) {
+                outputDTOList.add(unit);
+            } else {
+                // 子类
+                // 父类为空时，先将当前值缓存，等待父父类被初始化
+                childs.computeIfAbsent(unit.parentId, k -> new ArrayList<>());
+                childs.get(unit.parentId).add(unit);
+            }
+        }
+
+        // 返回树状结构
+        return outputDTOList;
+    }
 }
