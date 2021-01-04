@@ -7,7 +7,7 @@ import java.util.*;
  * @ClassName CustomHashMap
  * @Description 自定义hashmap
  * @PackageName com.example.demo.map_test.CustomHashMap
- * @Author admin
+ * @Author fate
  * @Date 2020/11/10    9:50
  **/
 public class CustomHashMapImpl<K,V> implements CustomMap<K,V>, Serializable {
@@ -154,8 +154,12 @@ public class CustomHashMapImpl<K,V> implements CustomMap<K,V>, Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CustomHashMapImpl)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CustomHashMapImpl)) {
+            return false;
+        }
         CustomHashMapImpl<?, ?> that = (CustomHashMapImpl<?, ?>) o;
         return Float.compare(that.loadFactor, loadFactor) == 0 &&
                 Arrays.equals(objects, that.objects);

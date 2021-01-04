@@ -4,7 +4,7 @@ package com.example.demo.multithreading;
  * @ClassName MyThread
  * @Description 继承Thread类，重写该类的run()方法。
  * @PackageName com.example.demo.multithreading.MyThread
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  16:27
  **/
 class MyThread extends Thread {

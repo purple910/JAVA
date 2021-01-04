@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 /**
@@ -15,7 +14,7 @@ import java.util.concurrent.FutureTask;
  * @Description 通过调用线程对象引用的start()方法，使得该线程进入到就绪状态，此时此线程并不一定会马上得以执行，这取决于CPU调度时机。
  * @PackageName com.example.demo.multithrea
  * ding.ThreadTest
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  16:27
  **/
 @RunWith(SpringRunner.class)

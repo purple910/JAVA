@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @ClassName ThreadPool
  * @Description
  * @PackageName com.example.demo.pool.ThreadPool
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  16:56
  **/
 @RunWith(SpringRunner.class)

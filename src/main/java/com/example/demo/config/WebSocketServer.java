@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @ClassName WebSocketServer
  * @Description
  * @PackageName com.example.demo.config.WebSocketServer
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  10:44
  **/
 

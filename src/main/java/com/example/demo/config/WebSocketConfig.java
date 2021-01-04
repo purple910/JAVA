@@ -8,7 +8,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
  * @ClassName WebSocketConfig
  * @Description 开启WebSocket支持
  * @PackageName com.example.demo.config.WebSocketConfig
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  9:49
  **/
 

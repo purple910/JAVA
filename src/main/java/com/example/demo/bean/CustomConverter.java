@@ -9,7 +9,7 @@ import net.sf.cglib.beans.BeanCopier;
  * @ClassName DTOConverter
  * @Description DTO转化器
  * @PackageName com.tfswx.sms.dto.base.DTOConverter
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/26 15:16
  **/
 public class CustomConverter<S, T> {
@@ -23,7 +23,7 @@ public class CustomConverter<S, T> {
      */
     private CustomConverter(Class<T> c) {
         try {
-            this.t = c.newInstance();
+            this.t = c.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }

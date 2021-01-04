@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
  * @ClassName MyCallable
  * @Description
  * @PackageName com.example.demo.multithreading.MyCallable
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  16:44
  **/
 class MyCallable implements Callable<Integer> {

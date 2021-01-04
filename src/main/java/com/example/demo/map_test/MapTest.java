@@ -1,14 +1,10 @@
 package com.example.demo.map_test;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * @ClassName Tset
  * @Description
  * @PackageName com.example.demo.Tset
- * @Author admin
+ * @Author fate
  * @Date 2020/11/10    9:41
  **/
 public class MapTest {

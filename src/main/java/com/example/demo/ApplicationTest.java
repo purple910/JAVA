@@ -1,8 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.bean.CustomConverter;
-import com.example.demo.bean.UserDTO;
 import com.example.demo.bean.User;
+import com.example.demo.bean.UserDTO;
 import com.example.demo.bean.UserInputDTO;
 import com.example.demo.utils.FileIteration;
 import com.example.demo.utils.FileRunnable;
@@ -27,7 +26,7 @@ import java.util.List;
  * @ClassName Test
  * @Description
  * @PackageName com.example.demo.Test
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/23    17:22
  **/
 @RunWith(SpringRunner.class)

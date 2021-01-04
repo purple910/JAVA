@@ -12,7 +12,7 @@ import java.util.concurrent.*;
  * @ClassName FileTest
  * @Description
  * @PackageName com.example.demo.utils.FileTest
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/23    15:58
  **/
 public class FileRunnable {

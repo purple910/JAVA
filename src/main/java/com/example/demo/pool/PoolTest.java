@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
  * @ClassName Test
  * @Description
  * @PackageName com.example.demo.pool.Test
- * @Author 杨登柳
+ * @Author fate
  * @Date 2020/12/24  17:19
  **/
 public class PoolTest {
