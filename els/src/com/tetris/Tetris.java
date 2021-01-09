@@ -1,465 +1,476 @@
 package com.tetris;
 
 
-
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /*
- * ¶íÂŞË¹·½¿éµÄÖ÷Àà£º
- * Ç°Ìá£º±ØĞëÊÇÒ»¿éÃæ°åJPanel£¬¿ÉÒÔÇ¶Èë´°¿Ú
- * Ãæ°åÉÏ×Ô´øÒ»¸ö»­±Ê£¬ÓĞÒ»¸ö¹¦ÄÜ£º×Ô¶¯»æÖÆ¡£
- * ÆäÊµÊÇµ÷ÓÃÁËJPanelÀïµÄpaint()
- * 
- * 
- * 
- * 
+ * ä¿„ç½—æ–¯æ–¹å—çš„ä¸»ç±»ï¼š
+ * å‰æï¼šå¿…é¡»æ˜¯ä¸€å—é¢æ¿JPanelï¼Œå¯ä»¥åµŒå…¥çª—å£
+ * é¢æ¿ä¸Šè‡ªå¸¦ä¸€ä¸ªç”»ç¬”ï¼Œæœ‰ä¸€ä¸ªåŠŸèƒ½ï¼šè‡ªåŠ¨ç»˜åˆ¶ã€‚
+ * å…¶å®æ˜¯è°ƒç”¨äº†JPanelé‡Œçš„paint()
+ *
+ *
+ *
+ *
  * (1):
- * ¼ÓÔØ¾²Ì¬×ÊÔ´
+ * åŠ è½½é™æ€èµ„æº
  */
 public class Tetris extends JPanel {
 
-	/** ÊôĞÔ£ºÕıÔÚÏÂÂäµÄËÄ¸ñ·½¿é */
-	private Tetromino currentOne = Tetromino.randomOne();
-	/** ÊôĞÔ£º½«ÒªÏÂÂäµÄËÄ¸ñ·½¿é */
-	private Tetromino nextOne = Tetromino.randomOne();
-	/** ÊôĞÔ£ºÇ½£¬20ĞĞ 10ÁĞµÄ ±í¸ñ ¿í¶ÈÎª26 */
-	private Cell[][] wall = new Cell[20][10];
-	/** Í³¼Æ·ÖÊı£º */
-	int[] scores_pool = { 0, 1, 2, 5, 10 };
-	private int totalScore = 0;
-	private int totalLine = 0;
+    /**
+     * å±æ€§ï¼šæ­£åœ¨ä¸‹è½çš„å››æ ¼æ–¹å—
+     */
+    private Tetromino currentOne = Tetromino.randomOne();
+    /**
+     * å±æ€§ï¼šå°†è¦ä¸‹è½çš„å››æ ¼æ–¹å—
+     */
+    private Tetromino nextOne = Tetromino.randomOne();
+    /**
+     * å±æ€§ï¼šå¢™ï¼Œ20è¡Œ 10åˆ—çš„ è¡¨æ ¼ å®½åº¦ä¸º26
+     */
+    private Cell[][] wall = new Cell[20][10];
+    /**
+     * ç»Ÿè®¡åˆ†æ•°ï¼š
+     */
+    int[] scores_pool = {0, 1, 2, 5, 10};
+    private int totalScore = 0;
+    private int totalLine = 0;
 
-	/** ¶¨ÒåÈı¸ö³£Á¿£º³äµ±ÓÎÏ·µÄ×´Ì¬ */
-	public static final int PLAYING = 0;
-	public static final int PAUSE = 1;
-	public static final int GAMEOVER = 2;
-	/** ¶¨ÒåÒ»¸öÊôĞÔ£¬´æ´¢ÓÎÏ·µÄµ±Ç°×´Ì¬ */
-	private int game_state;
+    /**
+     * å®šä¹‰ä¸‰ä¸ªå¸¸é‡ï¼šå……å½“æ¸¸æˆçš„çŠ¶æ€
+     */
+    public static final int PLAYING = 0;
+    public static final int PAUSE = 1;
+    public static final int GAMEOVER = 2;
+    /**
+     * å®šä¹‰ä¸€ä¸ªå±æ€§ï¼Œå­˜å‚¨æ¸¸æˆçš„å½“å‰çŠ¶æ€
+     */
+    private int game_state;
 
-	String[] showState = { "P[pause]", "C[continue]", "Enter[replay]" };
+    String[] showState = {"P[pause]", "C[continue]", "Enter[replay]"};
 
-	private static final int CELL_SIZE = 26;
-	public static BufferedImage T;
-	public static BufferedImage I;
-	public static BufferedImage O;
-	public static BufferedImage J;
-	public static BufferedImage L;
-	public static BufferedImage S;
-	public static BufferedImage Z;
-	public static BufferedImage background;
-	public static BufferedImage game_over;
-	static {
-		try {
-			/*
-			 * getResource(String url) url:¼ÓÔØÍ¼Æ¬µÄÂ·¾¶ Ïà¶ÔÎ»ÖÃÊÇÍ¬°üÏÂ
-			 */
-			T = ImageIO.read(Tetris.class.getResource("T.png"));
-			O = ImageIO.read(Tetris.class.getResource("O.png"));
-			I = ImageIO.read(Tetris.class.getResource("I.png"));
-			J = ImageIO.read(Tetris.class.getResource("J.png"));
-			L = ImageIO.read(Tetris.class.getResource("L.png"));
-			S = ImageIO.read(Tetris.class.getResource("S.png"));
-			Z = ImageIO.read(Tetris.class.getResource("Z.png"));
-			background = ImageIO.read(Tetris.class.getResource("tetris.png"));
-			game_over = ImageIO.read(Tetris.class.getResource("game-over.png"));
+    private static final int CELL_SIZE = 26;
+    public static BufferedImage T;
+    public static BufferedImage I;
+    public static BufferedImage O;
+    public static BufferedImage J;
+    public static BufferedImage L;
+    public static BufferedImage S;
+    public static BufferedImage Z;
+    public static BufferedImage background;
+    public static BufferedImage game_over;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    static {
+        try {
+            /*
+             * getResource(String url) url:åŠ è½½å›¾ç‰‡çš„è·¯å¾„ ç›¸å¯¹ä½ç½®æ˜¯åŒåŒ…ä¸‹
+             */
+            T = ImageIO.read(Tetris.class.getResource("T.png"));
+            O = ImageIO.read(Tetris.class.getResource("O.png"));
+            I = ImageIO.read(Tetris.class.getResource("I.png"));
+            J = ImageIO.read(Tetris.class.getResource("J.png"));
+            L = ImageIO.read(Tetris.class.getResource("L.png"));
+            S = ImageIO.read(Tetris.class.getResource("S.png"));
+            Z = ImageIO.read(Tetris.class.getResource("Z.png"));
+            background = ImageIO.read(Tetris.class.getResource("tetris.png"));
+            game_over = ImageIO.read(Tetris.class.getResource("game-over.png"));
 
-	/**
-	 * ÖØĞ´JPanelÀàÖĞµÄpaint(Graphics g) ·½·¨.
-	 */
-	public void paint(Graphics g) {
-		// »æÖÆ±³¾°
-		/*
-		 * g£º»­±Ê g.drawImage(image,x,y,null) image:»æÖÆµÄÍ¼Æ¬ x:¿ªÊ¼»æÖÆµÄºá×ø±ê y:¿ªÊ¼»æÖÆµÄ×İ×ø±ê
-		 */
-		g.drawImage(background, 0, 0, null);
-		// Æ½ÒÆ×ø±êÖá
-		g.translate(15, 15);
-		// »æÖÆÇ½
-		paintWall(g);
-		// »æÖÆÕıÔÚÏÂÂäµÄËÄ¸ñ·½¿é
-		paintCurrentOne(g);
-		// »æÖÆÏÂÒ»¸ö½«ÒªÏÂÂäµÄËÄ¸ñ·½¿é
-		paintNextOne(g);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-		paintScore(g);
-		paintState(g);
-	}
+    /**
+     * é‡å†™JPanelç±»ä¸­çš„paint(Graphics g) æ–¹æ³•.
+     */
+    public void paint(Graphics g) {
+        // ç»˜åˆ¶èƒŒæ™¯
+        /*
+         * gï¼šç”»ç¬” g.drawImage(image,x,y,null) image:ç»˜åˆ¶çš„å›¾ç‰‡ x:å¼€å§‹ç»˜åˆ¶çš„æ¨ªåæ ‡ y:å¼€å§‹ç»˜åˆ¶çš„çºµåæ ‡
+         */
+        g.drawImage(background, 0, 0, null);
+        // å¹³ç§»åæ ‡è½´
+        g.translate(15, 15);
+        // ç»˜åˆ¶å¢™
+        paintWall(g);
+        // ç»˜åˆ¶æ­£åœ¨ä¸‹è½çš„å››æ ¼æ–¹å—
+        paintCurrentOne(g);
+        // ç»˜åˆ¶ä¸‹ä¸€ä¸ªå°†è¦ä¸‹è½çš„å››æ ¼æ–¹å—
+        paintNextOne(g);
 
-	private void paintState(Graphics g) {
-		if (game_state == GAMEOVER) {
-			g.drawImage(game_over, 0, 0, null);
-			g.drawString(showState[GAMEOVER], 285, 265);
-		}
-		if (game_state == PLAYING) {
-			g.drawString(showState[PLAYING], 285, 265);
-		}
-		if (game_state == PAUSE) {
-			g.drawString(showState[PAUSE], 285, 265);
-		}
+        paintScore(g);
+        paintState(g);
+    }
 
-	}
+    private void paintState(Graphics g) {
+        if (game_state == GAMEOVER) {
+            g.drawImage(game_over, 0, 0, null);
+            g.drawString(showState[GAMEOVER], 285, 265);
+        }
+        if (game_state == PLAYING) {
+            g.drawString(showState[PLAYING], 285, 265);
+        }
+        if (game_state == PAUSE) {
+            g.drawString(showState[PAUSE], 285, 265);
+        }
 
-	public void paintScore(Graphics g) {
-		g.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 26));
-		g.drawString("SCORES:" + totalScore, 285, 165);
-		g.drawString("LINES:" + totalLine, 285, 215);
-	}
+    }
 
-	/**
-	 * »æÖÆÏÂÒ»¸ö½«ÒªÏÂÂäµÄËÄ¸ñ·½¿é »æÖÆµ½Ãæ°åµÄÓÒÉÏ½ÇµÄÏàÓ¦ÇøÓò
-	 * 
-	 * @param g
-	 */
-	public void paintNextOne(Graphics g) {
-		// »ñÈ¡nextOne¶ÔÏóµÄËÄ¸öÔªËØ
-		Cell[] cells = nextOne.cells;
-		for (Cell c : cells) {
-			// »ñÈ¡Ã¿Ò»¸öÔªËØµÄĞĞºÅºÍÁĞºÅ
-			int row = c.getRow();
-			int col = c.getCol();
-			// ºá×ø±êºÍ×İ×ø±ê
-			int x = col * CELL_SIZE + 260;
-			int y = row * CELL_SIZE + 26;
-			g.drawImage(c.getImage(), x, y, null);
-		}
-	}
+    public void paintScore(Graphics g) {
+        g.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 26));
+        g.drawString("SCORES:" + totalScore, 285, 165);
+        g.drawString("LINES:" + totalLine, 285, 215);
+    }
 
-	/**
-	 * »æÖÆÕıÔÚÏÂÂäµÄËÄ¸ñ·½¿é È¡³öÊı×éµÄÔªËØ »æÖÆÔªËØµÄÍ¼Æ¬£¬ ºá×ø±êx: ×İ×ø±êy:
-	 * 
-	 */
-	public void paintCurrentOne(Graphics g) {
-		Cell[] cells = currentOne.cells;
-		for (Cell c : cells) {
-			int x = c.getCol() * CELL_SIZE;
-			int y = c.getRow() * CELL_SIZE;
-			g.drawImage(c.getImage(), x, y, null);
-		}
-	}
+    /**
+     * ç»˜åˆ¶ä¸‹ä¸€ä¸ªå°†è¦ä¸‹è½çš„å››æ ¼æ–¹å— ç»˜åˆ¶åˆ°é¢æ¿çš„å³ä¸Šè§’çš„ç›¸åº”åŒºåŸŸ
+     *
+     * @param g
+     */
+    public void paintNextOne(Graphics g) {
+        // è·å–nextOneå¯¹è±¡çš„å››ä¸ªå…ƒç´ 
+        Cell[] cells = nextOne.cells;
+        for (Cell c : cells) {
+            // è·å–æ¯ä¸€ä¸ªå…ƒç´ çš„è¡Œå·å’Œåˆ—å·
+            int row = c.getRow();
+            int col = c.getCol();
+            // æ¨ªåæ ‡å’Œçºµåæ ‡
+            int x = col * CELL_SIZE + 260;
+            int y = row * CELL_SIZE + 26;
+            g.drawImage(c.getImage(), x, y, null);
+        }
+    }
 
-	/**
-	 * Ç½ÊÇ20ĞĞ£¬10ÁĞµÄ±í¸ñ ÊÇÒ»¸ö¶şÎ¬Êı×é£¬ Ó¦¸ÃÊ¹ÓÃË«²ãÑ­»· »æÖÆÕı·½ĞÎ¡£
-	 * 
-	 * @param a
-	 */
-	public void paintWall(Graphics a) {
-		// Íâ²ãÑ­»·¿ØÖÆĞĞÊı
-		for (int i = 0; i < 20; i++) {
-			// ÄÚ´æÑ­»·¿ØÖÆÁĞÊı
-			for (int j = 0; j < 10; j++) {
-				int x = j * CELL_SIZE;
-				int y = i * CELL_SIZE;
-				Cell cell = wall[i][j];
-				if (cell == null) {
-					a.drawRect(x, y, CELL_SIZE, CELL_SIZE);
-				} else {
-					a.drawImage(cell.getImage(), x, y, null);
-				}
-			}
-		}
-	}
+    /**
+     * ç»˜åˆ¶æ­£åœ¨ä¸‹è½çš„å››æ ¼æ–¹å— å–å‡ºæ•°ç»„çš„å…ƒç´  ç»˜åˆ¶å…ƒç´ çš„å›¾ç‰‡ï¼Œ æ¨ªåæ ‡x: çºµåæ ‡y:
+     */
+    public void paintCurrentOne(Graphics g) {
+        Cell[] cells = currentOne.cells;
+        for (Cell c : cells) {
+            int x = c.getCol() * CELL_SIZE;
+            int y = c.getRow() * CELL_SIZE;
+            g.drawImage(c.getImage(), x, y, null);
+        }
+    }
 
-	/**
-	 * ·â×°ÁËÓÎÏ·µÄÖ÷ÒªÂß¼­
-	 */
-	public void start() {
+    /**
+     * å¢™æ˜¯20è¡Œï¼Œ10åˆ—çš„è¡¨æ ¼ æ˜¯ä¸€ä¸ªäºŒç»´æ•°ç»„ï¼Œ åº”è¯¥ä½¿ç”¨åŒå±‚å¾ªç¯ ç»˜åˆ¶æ­£æ–¹å½¢ã€‚
+     *
+     * @param a
+     */
+    public void paintWall(Graphics a) {
+        // å¤–å±‚å¾ªç¯æ§åˆ¶è¡Œæ•°
+        for (int i = 0; i < 20; i++) {
+            // å†…å­˜å¾ªç¯æ§åˆ¶åˆ—æ•°
+            for (int j = 0; j < 10; j++) {
+                int x = j * CELL_SIZE;
+                int y = i * CELL_SIZE;
+                Cell cell = wall[i][j];
+                if (cell == null) {
+                    a.drawRect(x, y, CELL_SIZE, CELL_SIZE);
+                } else {
+                    a.drawImage(cell.getImage(), x, y, null);
+                }
+            }
+        }
+    }
 
-		game_state = PLAYING;
-		// ¿ªÆô¼üÅÌ¼àÌıÊÂ¼ş
-		KeyListener l = new KeyAdapter() {
-			/*
-			 * KeyPressed() ÊÇ¼üÅÌ°´Å¥ °´ÏÂÈ¥Ëùµ÷ÓÃµÄ·½·¨
-			 */
-			public void keyPressed(KeyEvent e) {
-				// »ñÈ¡Ò»ÏÂ¼ü×ÓµÄ´úºÅ
-				int code = e.getKeyCode();
+    /**
+     * å°è£…äº†æ¸¸æˆçš„ä¸»è¦é€»è¾‘
+     */
+    public void start() {
 
-				if (code == KeyEvent.VK_P) {
-					if (game_state == PLAYING) {
-						game_state = PAUSE;
-					}
+        game_state = PLAYING;
+        // å¼€å¯é”®ç›˜ç›‘å¬äº‹ä»¶
+        KeyListener l = new KeyAdapter() {
+            /*
+             * KeyPressed() æ˜¯é”®ç›˜æŒ‰é’® æŒ‰ä¸‹å»æ‰€è°ƒç”¨çš„æ–¹æ³•
+             */
+            public void keyPressed(KeyEvent e) {
+                // è·å–ä¸€ä¸‹é”®å­çš„ä»£å·
+                int code = e.getKeyCode();
 
-				}
-				if (code == KeyEvent.VK_C) {
-					if (game_state == PAUSE) {
-						game_state = PLAYING;
-					}
-				}
-				if (code == KeyEvent.VK_ENTER) {
-					game_state = PLAYING;
-					wall = new Cell[20][10];
-					currentOne = Tetromino.randomOne();
-					nextOne = Tetromino.randomOne();
-					totalScore = 0;
-					totalLine = 0;
-				}
+                if (code == KeyEvent.VK_P) {
+                    if (game_state == PLAYING) {
+                        game_state = PAUSE;
+                    }
 
-				switch (code) {
-				case KeyEvent.VK_DOWN:
-					softDropAction();
-					break;
-				case KeyEvent.VK_LEFT:
-					moveLeftAction();
-					break;
-				case KeyEvent.VK_RIGHT:
-					moveRightAction();
-					break;
-				case KeyEvent.VK_UP:
-					rotateRightAction();
-					break;
-				case KeyEvent.VK_SPACE:
-					handDropAction();
-					break;
-				}
-				repaint();
-			}
+                }
+                if (code == KeyEvent.VK_C) {
+                    if (game_state == PAUSE) {
+                        game_state = PLAYING;
+                    }
+                }
+                if (code == KeyEvent.VK_ENTER) {
+                    game_state = PLAYING;
+                    wall = new Cell[20][10];
+                    currentOne = Tetromino.randomOne();
+                    nextOne = Tetromino.randomOne();
+                    totalScore = 0;
+                    totalLine = 0;
+                }
 
-		};
-		// Ãæ°åÌí¼Ó¼àÌıÊÂ¼ş¶ÔÏó
-		this.addKeyListener(l);
-		// Ãæ°å¶ÔÏóÉèÖÃ³É½¹µã
-		this.requestFocus();
+                switch (code) {
+                    case KeyEvent.VK_DOWN:
+                        softDropAction();
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        moveLeftAction();
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        moveRightAction();
+                        break;
+                    case KeyEvent.VK_UP:
+                        rotateRightAction();
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        handDropAction();
+                        break;
+                }
+                repaint();
+            }
 
-		while (true) {
-			/**
-			 * µ±³ÌĞòÔËĞĞµ½´Ë£¬»á½øÈëË¯Ãß×´Ì¬£¬ Ë¯ÃßÊ±¼äÎª300ºÁÃë£¬µ¥Î»ÎªºÁÃë 300ºÁÃëºó£¬»á×Ô¶¯Ö´ĞĞºóĞø´úÂë
-			 */
-			try {
-				Thread.sleep(800);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+        };
+        // é¢æ¿æ·»åŠ ç›‘å¬äº‹ä»¶å¯¹è±¡
+        this.addKeyListener(l);
+        // é¢æ¿å¯¹è±¡è®¾ç½®æˆç„¦ç‚¹
+        this.requestFocus();
 
-			if (game_state == PLAYING) {
-				if (canDrop()) {
-					currentOne.softDrop();
-				} else {
-					landToWall();
-					destroyLine();
-					// ½«ÏÂÒ»¸öÏÂÂäµÄËÄ¸ñ·½¿é¸³Öµ¸øÕıÔÚÏÂÂäµÄ±äÁ¿
-					if (!isGameOver()) {
-						currentOne = nextOne;
-						nextOne = Tetromino.randomOne();
-					} else {
-						game_state = GAMEOVER;
-					}
-				}
-				repaint();
-				/*
-				 * ÏÂÂäÖ®ºó£¬ÒªÖØĞÂ½øĞĞ»æÖÆ£¬²Å»á¿´µ½ÏÂÂäºóµÄ Î»ÖÃ repaint·½·¨ Ò²ÊÇJPanelÀàÖĞÌá¹©µÄ ´Ë·½·¨ÖĞµ÷ÓÃÁËpaint·½·¨
-				 */
-			}
-		}
-	}
+        while (true) {
+            /**
+             * å½“ç¨‹åºè¿è¡Œåˆ°æ­¤ï¼Œä¼šè¿›å…¥ç¡çœ çŠ¶æ€ï¼Œ ç¡çœ æ—¶é—´ä¸º300æ¯«ç§’ï¼Œå•ä½ä¸ºæ¯«ç§’ 300æ¯«ç§’åï¼Œä¼šè‡ªåŠ¨æ‰§è¡Œåç»­ä»£ç 
+             */
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-	public boolean isGameOver() {
-		Cell[] cells = nextOne.cells;
-		for (Cell c : cells) {
-			int row = c.getRow();
-			int col = c.getCol();
-			if (wall[row][col] != null) {
-				return true;
-			}
-		}
-		return false;
-	}
+            if (game_state == PLAYING) {
+                if (canDrop()) {
+                    currentOne.softDrop();
+                } else {
+                    landToWall();
+                    destroyLine();
+                    // å°†ä¸‹ä¸€ä¸ªä¸‹è½çš„å››æ ¼æ–¹å—èµ‹å€¼ç»™æ­£åœ¨ä¸‹è½çš„å˜é‡
+                    if (!isGameOver()) {
+                        currentOne = nextOne;
+                        nextOne = Tetromino.randomOne();
+                    } else {
+                        game_state = GAMEOVER;
+                    }
+                }
+                repaint();
+                /*
+                 * ä¸‹è½ä¹‹åï¼Œè¦é‡æ–°è¿›è¡Œç»˜åˆ¶ï¼Œæ‰ä¼šçœ‹åˆ°ä¸‹è½åçš„ ä½ç½® repaintæ–¹æ³• ä¹Ÿæ˜¯JPanelç±»ä¸­æä¾›çš„ æ­¤æ–¹æ³•ä¸­è°ƒç”¨äº†paintæ–¹æ³•
+                 */
+            }
+        }
+    }
 
-	/**
-	 * ÂúÒ»ĞĞ£¬¾Í½øĞĞÏû³ı£¬ÉÏÃæµÄ·½¿é¶¼ÒªÏòÏÂÆ½ÒÆ
-	 */
-	public void destroyLine() {
-		// Í³¼ÆÏú»ÙĞĞµÄĞĞÊı
-		int lines = 0;
+    public boolean isGameOver() {
+        Cell[] cells = nextOne.cells;
+        for (Cell c : cells) {
+            int row = c.getRow();
+            int col = c.getCol();
+            if (wall[row][col] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-		Cell[] cells = currentOne.cells;
-		for (Cell c : cells) {
-			int row = c.getRow();
-			while (row < 20) {
-				if (isFullLine(row)) {
-					lines++;
-					wall[row] = new Cell[10];
-					for (int i = row; i > 0; i--) {
-						System.arraycopy(wall[i - 1], 0, wall[i], 0, 10);
-					}
-					wall[0] = new Cell[10];
-				}
-				row++;
-			}
-		}
-		// ´Ó·ÖÊı³ØÖĞÈ¡³ö·ÖÊı£¬¼ÓÈë×Ü·ÖÊı
-		totalScore += scores_pool[lines];
-		totalLine += lines;
+    /**
+     * æ»¡ä¸€è¡Œï¼Œå°±è¿›è¡Œæ¶ˆé™¤ï¼Œä¸Šé¢çš„æ–¹å—éƒ½è¦å‘ä¸‹å¹³ç§»
+     */
+    public void destroyLine() {
+        // ç»Ÿè®¡é”€æ¯è¡Œçš„è¡Œæ•°
+        int lines = 0;
 
-	}
+        Cell[] cells = currentOne.cells;
+        for (Cell c : cells) {
+            int row = c.getRow();
+            while (row < 20) {
+                if (isFullLine(row)) {
+                    lines++;
+                    wall[row] = new Cell[10];
+                    for (int i = row; i > 0; i--) {
+                        System.arraycopy(wall[i - 1], 0, wall[i], 0, 10);
+                    }
+                    wall[0] = new Cell[10];
+                }
+                row++;
+            }
+        }
+        // ä»åˆ†æ•°æ± ä¸­å–å‡ºåˆ†æ•°ï¼ŒåŠ å…¥æ€»åˆ†æ•°
+        totalScore += scores_pool[lines];
+        totalLine += lines;
 
-	public boolean isFullLine(int row) {
-		Cell[] line = wall[row];
-		for (Cell c : line) {
-			if (c == null) {
-				return false;
-			}
-		}
-		return true;
-	}
+    }
 
-	/**
-	 * Ò»¼üµ½µ×
-	 */
-	public void handDropAction() {
-		for (;;) {
-			if (canDrop()) {
-				currentOne.softDrop();
-			} else {
-				break;
-			}
-		}
-		landToWall();
-		destroyLine();
-		if (!isGameOver()) {
-			currentOne = nextOne;
-			nextOne = Tetromino.randomOne();
-		} else {
-			game_state = GAMEOVER;
-		}
-	}
+    public boolean isFullLine(int row) {
+        Cell[] line = wall[row];
+        for (Cell c : line) {
+            if (c == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	public void rotateRightAction() {
-		currentOne.rotateRight();
-		if (outOfBounds() || coincide()) {
-			currentOne.rotateLeft();
-		}
-	}
+    /**
+     * ä¸€é”®åˆ°åº•
+     */
+    public void handDropAction() {
+        for (; ; ) {
+            if (canDrop()) {
+                currentOne.softDrop();
+            } else {
+                break;
+            }
+        }
+        landToWall();
+        destroyLine();
+        if (!isGameOver()) {
+            currentOne = nextOne;
+            nextOne = Tetromino.randomOne();
+        } else {
+            game_state = GAMEOVER;
+        }
+    }
 
-	protected void moveRightAction() {
-		currentOne.moveRight();
-		if (outOfBounds() || coincide()) {
-			currentOne.moveLeft();
-		}
+    public void rotateRightAction() {
+        currentOne.rotateRight();
+        if (outOfBounds() || coincide()) {
+            currentOne.rotateLeft();
+        }
+    }
 
-	}
+    protected void moveRightAction() {
+        currentOne.moveRight();
+        if (outOfBounds() || coincide()) {
+            currentOne.moveLeft();
+        }
 
-	/**
-	 * Ê¹ÓÃleft¼ü¿ØÖÆÏò×óµÄĞĞÎª
-	 */
-	protected void moveLeftAction() {
-		currentOne.moveLeft();
-		if (outOfBounds() || coincide()) {
-			currentOne.moveRight();
-		}
-	}
+    }
 
-	public boolean outOfBounds() {
-		Cell[] cells = currentOne.cells;
-		for (Cell c : cells) {
-			int col = c.getCol();
-			int row = c.getRow();
-			if (col < 0 || col > 9 || row > 19 || row < 0) {
-				return true;
-			}
-		}
-		return false;
+    /**
+     * ä½¿ç”¨lefté”®æ§åˆ¶å‘å·¦çš„è¡Œä¸º
+     */
+    protected void moveLeftAction() {
+        currentOne.moveLeft();
+        if (outOfBounds() || coincide()) {
+            currentOne.moveRight();
+        }
+    }
 
-	}
+    public boolean outOfBounds() {
+        Cell[] cells = currentOne.cells;
+        for (Cell c : cells) {
+            int col = c.getCol();
+            int row = c.getRow();
+            if (col < 0 || col > 9 || row > 19 || row < 0) {
+                return true;
+            }
+        }
+        return false;
 
-	public boolean coincide() {
-		Cell[] cells = currentOne.cells;
-		for (Cell c : cells) {
-			int row = c.getRow();
-			int col = c.getCol();
-			if (wall[row][col] != null) {
-				return true;
-			}
-		}
-		return false;
-	}
+    }
 
-	/*
-	 * Ê¹ÓÃdown¼ü¿ØÖÆËÄ¸ñ·½¿éµÄÏÂÂä
-	 */
-	public void softDropAction() {
-		if (canDrop()) {
-			currentOne.softDrop();
-		} else {
-			landToWall();
-			destroyLine();
-			currentOne = nextOne;
-			nextOne = Tetromino.randomOne();
-		}
-	}
+    public boolean coincide() {
+        Cell[] cells = currentOne.cells;
+        for (Cell c : cells) {
+            int row = c.getRow();
+            int col = c.getCol();
+            if (wall[row][col] != null) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public boolean canDrop() {
-		Cell[] cells = currentOne.cells;
-		/*
-		 * 
-		 */
-		for (Cell c : cells) {
-			/*
-			 * »ñÈ¡Ã¿¸öÔªËØµÄĞĞºÅºÍÁĞºÅ ÅĞ¶Ï£º Ö»ÒªÓĞÒ»¸öÔªËØµÄÏÂÒ»ĞĞÉÏÓĞ·½¿é »òÕßÖ»ÒªÓĞÒ»¸öÔªËØµ½´ï×îºóÒ»ĞĞ£¬ ¾Í²»ÄÜÔÙÏÂÂäÁË
-			 */
-			int row = c.getRow();
-			int col = c.getCol();
+    /*
+     * ä½¿ç”¨downé”®æ§åˆ¶å››æ ¼æ–¹å—çš„ä¸‹è½
+     */
+    public void softDropAction() {
+        if (canDrop()) {
+            currentOne.softDrop();
+        } else {
+            landToWall();
+            destroyLine();
+            currentOne = nextOne;
+            nextOne = Tetromino.randomOne();
+        }
+    }
 
-			if (row == 19) {
-				return false;
-			}
-			if (wall[row + 1][col] != null) {
-				return false;
-			}
-		}
-		return true;
-	}
+    public boolean canDrop() {
+        Cell[] cells = currentOne.cells;
+        /*
+         *
+         */
+        for (Cell c : cells) {
+            /*
+             * è·å–æ¯ä¸ªå…ƒç´ çš„è¡Œå·å’Œåˆ—å· åˆ¤æ–­ï¼š åªè¦æœ‰ä¸€ä¸ªå…ƒç´ çš„ä¸‹ä¸€è¡Œä¸Šæœ‰æ–¹å— æˆ–è€…åªè¦æœ‰ä¸€ä¸ªå…ƒç´ åˆ°è¾¾æœ€åä¸€è¡Œï¼Œ å°±ä¸èƒ½å†ä¸‹è½äº†
+             */
+            int row = c.getRow();
+            int col = c.getCol();
 
-	/*
-	 * µ±²»ÄÜÔÙÏÂÂäÊ±£¬ĞèÒª½«ËÄ¸ñ·½¿é£¬Ç¶Èëµ½Ç½ÖĞ Ò²¾ÍÊÇ´æ´¢µ½¶şÎ¬Êı×éÖĞÏàÓ¦µÄÎ»ÖÃÉÏ
-	 */
-	public void landToWall() {
-		Cell[] cells = currentOne.cells;
-		for (Cell c : cells) {
-			// »ñÈ¡×îÖÕµÄĞĞºÅºÍÁĞºÅ
-			int row = c.getRow();
-			int col = c.getCol();
-			wall[row][col] = c;
-		}
-	}
+            if (row == 19) {
+                return false;
+            }
+            if (wall[row + 1][col] != null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	/** Æô¶¯³ÌĞòµÄÈë¿Ú ÓÎÏ·¿ªÊ¼ */
-	public static void main(String[] args) {
-		// 1:´´½¨Ò»¸ö´°¿Ú¶ÔÏó
-		JFrame frame = new JFrame("»ğÆ´¶íÂŞË¹");
+    /*
+     * å½“ä¸èƒ½å†ä¸‹è½æ—¶ï¼Œéœ€è¦å°†å››æ ¼æ–¹å—ï¼ŒåµŒå…¥åˆ°å¢™ä¸­ ä¹Ÿå°±æ˜¯å­˜å‚¨åˆ°äºŒç»´æ•°ç»„ä¸­ç›¸åº”çš„ä½ç½®ä¸Š
+     */
+    public void landToWall() {
+        Cell[] cells = currentOne.cells;
+        for (Cell c : cells) {
+            // è·å–æœ€ç»ˆçš„è¡Œå·å’Œåˆ—å·
+            int row = c.getRow();
+            int col = c.getCol();
+            wall[row][col] = c;
+        }
+    }
 
-		// ´´½¨ÓÎÏ·½çÃæ£¬¼´Ãæ°å
-		Tetris panel = new Tetris();
-		// ½«Ãæ°åÇ¶Èë´°¿Ú
-		frame.add(panel);
+    /**
+     * å¯åŠ¨ç¨‹åºçš„å…¥å£ æ¸¸æˆå¼€å§‹
+     */
+    public static void main(String[] args) {
+        // 1:åˆ›å»ºä¸€ä¸ªçª—å£å¯¹è±¡
+        JFrame frame = new JFrame("ç«æ‹¼ä¿„ç½—æ–¯");
 
-		// 2:ÉèÖÃÎª¿É¼û
-		frame.setVisible(true);
-		// 3:ÉèÖÃ´°¿ÚµÄ³ß´ç
-		frame.setSize(535, 580);
-		// 4:ÉèÖÃ´°¿Ú¾ÓÖĞ
-		frame.setLocationRelativeTo(null);
-		// 5:ÉèÖÃ´°¿Ú¹Ø±Õ£¬¼´³ÌĞòÖÕÖ¹
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // åˆ›å»ºæ¸¸æˆç•Œé¢ï¼Œå³é¢æ¿
+        Tetris panel = new Tetris();
+        // å°†é¢æ¿åµŒå…¥çª—å£
+        frame.add(panel);
 
-		// ÓÎÏ·µÄÖ÷ÒªÂß¼­·â×°ÔÚstart·½·¨ÖĞ
-		panel.start();
+        // 2:è®¾ç½®ä¸ºå¯è§
+        frame.setVisible(true);
+        // 3:è®¾ç½®çª—å£çš„å°ºå¯¸
+        frame.setSize(535, 580);
+        // 4:è®¾ç½®çª—å£å±…ä¸­
+        frame.setLocationRelativeTo(null);
+        // 5:è®¾ç½®çª—å£å…³é—­ï¼Œå³ç¨‹åºç»ˆæ­¢
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	}
+        // æ¸¸æˆçš„ä¸»è¦é€»è¾‘å°è£…åœ¨startæ–¹æ³•ä¸­
+        panel.start();
+
+    }
 
 }

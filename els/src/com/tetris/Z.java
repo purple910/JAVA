@@ -2,8 +2,8 @@ package com.tetris;
 
 public class Z extends Tetromino {
 	/**
-	 * Ìá¹©¹¹ÔìÆ÷£¬½øĞĞ³õÊ¼»¯
-	 * ZĞÍµÄËÄ¸ñ·½¿éµÄÎ»ÖÃ
+	 * æä¾›æ„é€ å™¨ï¼Œè¿›è¡Œåˆå§‹åŒ–
+	 * Zå‹çš„å››æ ¼æ–¹å—çš„ä½ç½®
 	 * */
 	public Z() {
 		cells[0]=new Cell(1,4,Tetris.Z);

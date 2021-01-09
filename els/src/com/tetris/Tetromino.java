@@ -3,25 +3,25 @@ package com.tetris;
 import java.util.Arrays;
 
 /**
- *  ËÄ¸ñ·½¿é
- *  ÊôĞÔ:
- *    --cells ----ËÄ¸ö·½¿é 
- *  ĞĞÎª:
+ *  å››æ ¼æ–¹å—
+ *  å±æ€§:
+ *    --cells ----å››ä¸ªæ–¹å— 
+ *  è¡Œä¸º:
  *  	moveLeft()
  *  	moveRight()
  *  	softDrop()
  */
 public class Tetromino {
 	protected Cell[] cells = new Cell[4];
-	/**Ğı×ª×´Ì¬ÊôĞÔ£¬×´Ì¬¸öÊıÒÔÊı×éµÄĞÎÊ½½øĞĞ´æ´¢*/
+	/**æ—‹è½¬çŠ¶æ€å±æ€§ï¼ŒçŠ¶æ€ä¸ªæ•°ä»¥æ•°ç»„çš„å½¢å¼è¿›è¡Œå­˜å‚¨*/
 	protected State[] states;
-	/**¶¨ÒåÒ»¸ö±äÁ¿£º³äµ±Ğı×ª´ÎÊıµÄ¼ÆÊıÆ÷*/
+	/**å®šä¹‰ä¸€ä¸ªå˜é‡ï¼šå……å½“æ—‹è½¬æ¬¡æ•°çš„è®¡æ•°å™¨*/
 	private int count = 100000;
 	
 	
 	/**
-	 * ËÄ¸ñ·½¿éÏò×óÒÆ¶¯
-	 * Êµ¼ÊÉÏ£º¾ÍÊÇÃ¿¸ö·½¿éÏò×óÒÆ¶¯
+	 * å››æ ¼æ–¹å—å‘å·¦ç§»åŠ¨
+	 * å®é™…ä¸Šï¼šå°±æ˜¯æ¯ä¸ªæ–¹å—å‘å·¦ç§»åŠ¨
 	 * */
 	public void moveLeft() {
 		for(int i=0;i<cells.length;i++) {
@@ -29,13 +29,13 @@ public class Tetromino {
 			cell.left();
 		}
 	}
-	/**ËÄ¸ñ·½¿éÏòÓÒÒÆ¶¯*/
+	/**å››æ ¼æ–¹å—å‘å³ç§»åŠ¨*/
 	public void moveRight() {
 		for(Cell c:cells) {
 			c.right();
 		}
 	}
-	/**ËÄ¸ñ·½¿éÏòÏÂÒÆ¶¯*/
+	/**å››æ ¼æ–¹å—å‘ä¸‹ç§»åŠ¨*/
 	public void softDrop() {
 		for(Cell c:cells) {
 			c.drop();
@@ -45,7 +45,7 @@ public class Tetromino {
 	public String toString() {
 		return "[" +Arrays.toString(cells) + "]";
 	}
-	/**Ëæ»úÉú³ÉÒ»¸öËÄ¸ñ·½¿é*/
+	/**éšæœºç”Ÿæˆä¸€ä¸ªå››æ ¼æ–¹å—*/
 	public static Tetromino randomOne() {
 		Tetromino  t = null;
 		int num = (int)(Math.random()*7);
@@ -61,14 +61,14 @@ public class Tetromino {
 		return t;
 	}
 	/**
-	 * Ë³Ê±Õë£¬ÏòÓÒĞı×ªËÄ¸ñ·½¿é
+	 * é¡ºæ—¶é’ˆï¼Œå‘å³æ—‹è½¬å››æ ¼æ–¹å—
 	 */
 	
 	public void rotateRight() {
-		//Ğı×ªÓĞÒ»´Î£¬¼ÆËãÆ÷Ôö³¤1
+		//æ—‹è½¬æœ‰ä¸€æ¬¡ï¼Œè®¡ç®—å™¨å¢é•¿1
 		count++;//100001
 		State s = states[count%states.length];
-		//ĞèÒª»ñÈ¡ÖáµÄĞĞºÅºÍÁĞºÅ
+		//éœ€è¦è·å–è½´çš„è¡Œå·å’Œåˆ—å·
 		Cell c = cells[0];
 		int row = c.getRow();
 		int col = c.getCol();
@@ -83,12 +83,12 @@ public class Tetromino {
 		
 	}
 	/**
-	 * ÄæÊ±Õë£¬Ïò×óĞı×ªËÄ¸ñ·½¿é
+	 * é€†æ—¶é’ˆï¼Œå‘å·¦æ—‹è½¬å››æ ¼æ–¹å—
 	 */
 	public void rotateLeft() {
 		count--;//100001
 		State s = states[count%states.length];
-		//ĞèÒª»ñÈ¡ÖáµÄĞĞºÅºÍÁĞºÅ
+		//éœ€è¦è·å–è½´çš„è¡Œå·å’Œåˆ—å·
 		Cell c = cells[0];
 		int row = c.getRow();
 		int col = c.getCol();
@@ -100,14 +100,14 @@ public class Tetromino {
 		cells[3].setCol(col+s.col3);
 	}
 	/**
-	 * ¶¨ÒåÄÚ²¿Àà£ºState,ÓÃÓÚ
-	 * ·â×°Ã¿´ÎĞı×ªºóµÄÏà¶ÔÓÚÖáµÄÆäËûÈı¸ö·½¿éµÄ
-	 * ×ø±ê(ĞĞºÅ£¬ÁĞºÅ)
+	 * å®šä¹‰å†…éƒ¨ç±»ï¼šState,ç”¨äº
+	 * å°è£…æ¯æ¬¡æ—‹è½¬åçš„ç›¸å¯¹äºè½´çš„å…¶ä»–ä¸‰ä¸ªæ–¹å—çš„
+	 * åæ ‡(è¡Œå·ï¼Œåˆ—å·)
 	 */
 	public class State{
 		/**
-		 * Éè¼Æ°Ë¸öÊôĞÔ£¬·Ö±ğ´æ´¢ËÄ¸ñ·½¿éÔªËØµÄÏà¶Ô
-		 * Î»ÖÃ
+		 * è®¾è®¡å…«ä¸ªå±æ€§ï¼Œåˆ†åˆ«å­˜å‚¨å››æ ¼æ–¹å—å…ƒç´ çš„ç›¸å¯¹
+		 * ä½ç½®
 		 */
 		int row0,col0,row1,col1,row2,col2,row3,col3;
 		public State() {}

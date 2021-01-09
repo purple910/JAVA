@@ -3,8 +3,8 @@ package com.tetris;
 
 public class J extends Tetromino{
 	/**
-	 * Ìá¹©¹¹ÔìÆ÷£¬½øĞĞ³õÊ¼»¯
-	 * JĞÍµÄËÄ¸ñ·½¿éµÄÎ»ÖÃ
+	 * æä¾›æ„é€ å™¨ï¼Œè¿›è¡Œåˆå§‹åŒ–
+	 * Jå‹çš„å››æ ¼æ–¹å—çš„ä½ç½®
 	 * */
 	public J() {
 		cells[0]=new Cell(0,4,Tetris.J);
