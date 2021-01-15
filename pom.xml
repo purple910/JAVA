@@ -53,6 +53,18 @@
             <version>3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
+
         <!--        <dependency>-->
         <!--            <groupId>com.dm</groupId>-->
         <!--            <artifactId>DmJdbcDriver</artifactId>-->

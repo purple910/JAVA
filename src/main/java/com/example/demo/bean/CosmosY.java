@@ -10,8 +10,8 @@ import lombok.Data;
 **/
 @Data
 public class CosmosY {
-//    private String id;
-//    private String name;
+    private String id;
+    private String name;
     private String filed1;
     private String filed2;
     private String filed3;
