@@ -35,9 +35,9 @@ public class CosmosInitializationData {
 
         // 3.使用net.sf.cglib.beans.BeanCopier (source != target)
         // cglib:cglib:3.1
-/*        CosmosN cosmosN = new CosmosN();
-        net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
-        copier.copy(cosmosY, cosmosN, null);*/
+//        CosmosN cosmosN = new CosmosN();
+//        net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
+//        copier.copy(cosmosY, cosmosN, null);
 
         // 4.使用org.springframework.cglib.beans.BeanCopier (source != target)
 /*        CosmosN cosmosN = new CosmosN();

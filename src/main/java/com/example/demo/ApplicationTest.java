@@ -1,11 +1,10 @@
 package com.example.demo;
 
-import com.example.demo.bean.User;
-import com.example.demo.bean.UserDTO;
-import com.example.demo.bean.UserInputDTO;
+import com.example.demo.bean.*;
 import com.example.demo.utils.FileIteration;
 import com.example.demo.utils.FileRunnable;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,6 +133,22 @@ public class ApplicationTest {
 //        User user = dto.convertByInput(dto);
         System.out.println("user = " + user);
         System.out.println("dto = " + dto);
+    }
+
+
+    @Test
+    public void test7(){
+        UserInputDTO dto = new UserInputDTO();
+        dto.setAge(18);
+        dto.setId(2);
+        dto.setName("root");
+        dto.setPassword("11111");
+
+        User user = ConvertUtil.convert(User.class, dto);
+        System.out.println("user = " + user);
+
+
+
     }
 
 }

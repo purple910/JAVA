@@ -120,4 +120,24 @@ public class CustomConverter<S, T> {
         return t;
     }
 
+
+    /**
+     *
+     * @param target 目标对象类
+     * @param source 资源对象
+     * @return 目标对象
+     */
+    public T convert(Class<T> target, S source) {
+        try {
+            T instance = target.getDeclaredConstructor().newInstance();
+            convert(source, instance);
+            return instance;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+
 }
