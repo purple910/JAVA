@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 /**
@@ -57,6 +59,16 @@ public class PrintStreamTest {
         System.out.println("现在东西都输出了,我要把输出文件该为控制台!!");
         System.setOut(out);
         System.out.println("现在应该是在控制台");
+    }
+
+    public void test4() throws UnsupportedEncodingException {
+        System.out.println(("系统默认编码:") + System.getProperty("file.encoding"));
+        // 系统默认字符编码
+        System.out.println(("系统默认字符编码:") + Charset.defaultCharset().name());
+        // 操作系统用户使用的语言
+        System.out.println("系统默认语言:" + System.getProperty("user.language"));
+        String s = new String("系统默认语言:aa".getBytes("UTF-8"), Charset.defaultCharset().name());
+        System.out.println("s = " + s);
     }
 
 }
