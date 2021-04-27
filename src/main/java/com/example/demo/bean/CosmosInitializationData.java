@@ -221,7 +221,7 @@ public class CosmosInitializationData {
     }
 
 
-    private static CosmosY getCosmosY() {
+    public static CosmosY getCosmosY() {
         CosmosY cosmosY = new CosmosY();
         Field[] fields = cosmosY.getClass().getDeclaredFields();
         for (Field field : fields) {

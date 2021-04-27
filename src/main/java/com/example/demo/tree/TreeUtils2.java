@@ -7,7 +7,7 @@ import java.util.List;
  * @ClassName TreeUtils2
  * @Description
  * @PackageName com.example.demo.tree.TreeUtils2
- * @Author 杨登柳
+ * @Author fate
  * @Date 2021/1/4  13:17
  **/
 public class TreeUtils2 {

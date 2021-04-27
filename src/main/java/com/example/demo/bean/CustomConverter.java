@@ -8,7 +8,7 @@ import net.sf.cglib.beans.BeanCopier;
  * @param <T> 目标类
  * @ClassName DTOConverter
  * @Description DTO转化器
- * @PackageName com.tfswx.sms.dto.base.DTOConverter
+ * @PackageName com.example.demo.bean.CustomConverter
  * @Author fate
  * @Date 2020/12/26 15:16
  **/
