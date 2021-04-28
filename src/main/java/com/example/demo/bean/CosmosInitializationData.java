@@ -17,7 +17,7 @@ import java.util.Random;
 public class CosmosInitializationData {
 
     public static void main(String[] args) throws IllegalAccessException {
-//        CosmosY cosmosY = getCosmosY();
+        CosmosY cosmosY = getCosmosY();
 
         // 1.使用org.apache.commons.beanutils.BeanUtils.copyProperties  (source != target)
 /*        CosmosN cosmosN = new CosmosN();
@@ -35,9 +35,9 @@ public class CosmosInitializationData {
 
         // 3.使用net.sf.cglib.beans.BeanCopier (source != target)
         // cglib:cglib:3.1
-//        CosmosN cosmosN = new CosmosN();
-//        net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
-//        copier.copy(cosmosY, cosmosN, null);
+/*        CosmosN cosmosN = new CosmosN();
+        net.sf.cglib.beans.BeanCopier copier = net.sf.cglib.beans.BeanCopier.create(CosmosY.class, CosmosN.class, false);
+        copier.copy(cosmosY, cosmosN, null);*/
 
         // 4.使用org.springframework.cglib.beans.BeanCopier (source != target)
 /*        CosmosN cosmosN = new CosmosN();
@@ -77,13 +77,18 @@ public class CosmosInitializationData {
 
         // 9.orika(ma.glasnost.orika:orika-core) (source != target)
 /*        ma.glasnost.orika.MapperFactory mapperFactory = new ma.glasnost.orika.impl.DefaultMapperFactory.Builder().build();
-        CosmosN cosmosN = mapperFactory.getMapperFacade().map(cosmosY, CosmosN.class)*/
-        ;
+        CosmosN cosmosN = mapperFactory.getMapperFacade().map(cosmosY, CosmosN.class);*/
 
-//        System.out.println("cosmosN = " + cosmosN);
-//        System.out.println("cosmosY = " + cosmosY);
+        // 10. ModelMapper(org.modelmapper.ModelMapper_ (source != target)
+        org.modelmapper.ModelMapper modelMapper = new org.modelmapper.ModelMapper();
+        CosmosN cosmosN = modelMapper.map(cosmosY, CosmosN.class);
+
+        System.out.println("cosmosN = " + cosmosN);
+        System.out.println("cosmosY = " + cosmosY);
 
 
+
+/*
         final Long number = 100000L;
 
         List<CosmosY> cosmosies = new ArrayList<>();
@@ -216,7 +221,7 @@ public class CosmosInitializationData {
         System.out.println("(date6.getTime() - date5.getTime()) = " + (date6.getTime() - date5.getTime()));
         System.out.println("(date8.getTime() - date7.getTime()) = " + (date8.getTime() - date7.getTime()));
         System.out.println("(date10.getTime() - date9.getTime()) = " + (date10.getTime() - date9.getTime()));
-
+*/
 
     }
 
